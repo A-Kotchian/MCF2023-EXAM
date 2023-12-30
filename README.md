@@ -16,15 +16,11 @@ Run the script _"Rossi simulation.py"_ in the terminal.
 
 The program starts asking the user to insert:
 - Starting Energy of a photon at 20km of altitude
-- Step di avanzamento della particella
- in termini della lunghezza di radiazione (X_0)
+- The step of advancement in terms of X_0. The value must be between 0 and 1.
 
-In seguito il programma chiedera all'utente se vuole vedere
-alcuni grafici.
+Then the programm starts asking if the user wants to see 2 graphs: 
 
-L'utente,se vuole visualizzare, deve inserire "_1_" altrimenti "_0_".
-
-
+If the users wants to see the graphs, he needs to insert "_1_" else "_0_".
 
 
 **HELP** :   
