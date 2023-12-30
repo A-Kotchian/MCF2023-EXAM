@@ -13,6 +13,7 @@ You need _Python_ with this libraries:
 
 **HOW TO USE IT**
 Run the script _"Rossi simulation.py"_ in the terminal.
+
 The program starts asking the user to insert:
 - Starting Energy of a photon at 20km of altitude
 - Step di avanzamento della particella
@@ -20,6 +21,7 @@ The program starts asking the user to insert:
 
 In seguito il programma chiedera all'utente se vuole vedere
 alcuni grafici.
+
 L'utente,se vuole visualizzare, deve inserire "_1_" altrimenti "_0_".
 
 
