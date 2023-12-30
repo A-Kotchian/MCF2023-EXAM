@@ -46,7 +46,7 @@ def simulate(s, d ,Particles):
     Simulate the behavior of particles with given energy and altitude.
 
     Parameters:
-    -s (float): The step size.
+    -s (float): The step of advancement in terms of X_0. The value must be between 0 and 1.
     -deep (int): The depth.
     -Particles (class): The class representing the particles.
 
@@ -236,7 +236,7 @@ def Energy_and_flux_of_simulation(energy,deep,s,angle):
     Parameters:
         energy (float): The starting energy for the simulation.
         deep (float): The depth of the simulation.
-        s (float): The parameter s for the simulation.
+        s (float): The step of advancement in terms of X_0. The value must be between 0 and 1.
         angle (float): The angle parameter for the simulation.
 
     Returns:
@@ -248,9 +248,7 @@ def Energy_and_flux_of_simulation(energy,deep,s,angle):
 
     return flux,Saved_photons
 
-# Example usage with curve_fit:
-# xdata and ydata would be your data vectors
-# popt, pcov = curve_fit(landau_dist, xdata, ydata, p0=[initial_mpv, initial_eta, initial_A])
+
 #######################################################################################
 #
 #Class of Particles
@@ -428,8 +426,8 @@ Variables:
 
 """
 
-plt.hist(Saved_photons_0,bins=50+int(np.sqrt(len(Saved_photons_0))))                       #Hist of photons 
-plt.xlabel("log E(MeV)")
+plt.hist(Saved_photons_0,bins=int(np.sqrt(len(Saved_photons_0))))                       #Hist of photons 
+plt.xlabel("log E(MeV)")                                                                #number of bins follows the poissonian distribution
 plt.ylabel("N*of samples")
 plt.title("Histogram of Energy of photons at {:}eV".format(starting_energy))
 plt.xscale("log")
