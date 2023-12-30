@@ -25,5 +25,5 @@ or
 - Open the terminal in the "MCF2023-EXAM folder"
 - insert "_pip_ _install_ _-r_ _requirements.txt_"
 - done!
-N.B:If you have linux and new version of Python maybe it's usefull to use:
+N.B: If you have linux and new version of Python maybe it's usefull to use:
 - "_pip_ _install_ _-r_ _requirements.txt_ _--break-system-packages_"
