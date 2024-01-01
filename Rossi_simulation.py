@@ -149,12 +149,12 @@ def simulate(s, d ,Particles):
                     
         Particles.particles = new_particles   
     
-        n_elettroni_totali.append(N_electrons)
-        n_fotoni_totali.append(N_photons)
-        n_positroni_totali.append(N_positrons)
+        total_n_electrons.append(N_electrons)
+        total_n_photons.append(N_photons)
+        total_n_positrons.append(N_positrons)
         total_particles.append(N_electrons+N_photons+N_positrons)
 
-def u_misure(value):
+def u_mesur(value):
     """
     Returns a unit symbol based on the given value.
 
@@ -342,8 +342,9 @@ class Swarm:
 
 
 """
-The program ask to user to input : - starting energy
-                                   - step size
+The program ask to user to input : 
+    - starting energy
+    - step size
 """
 try:
     starting_energy = float(input("\nInserisci l'Energy iniziale in MeV(max 100Tev): "))
@@ -354,9 +355,9 @@ s=float(input("\nInserisci il passo dello step tra 0 e 1:"))
 
 
 Particles=Swarm(starting_energy)    #First simulation
-n_elettroni_totali = []
-n_positroni_totali = []
-n_fotoni_totali = []
+total_n_electrons = []
+total_n_positrons = []
+total_n_photons = []
 total_particles = []
 Altitude_event=[]
 
@@ -366,9 +367,9 @@ Altitude_event=[]
 simulate( s, X_0, Particles)
 print("\n---------------------------------\n")
 print("Ad ogni step:\n")
-print(f"Numero di fotoni totali : {n_fotoni_totali}")
-print(f"Numero di positroni totali : {n_positroni_totali}")
-print(f"Numero di elettroni totali : {n_elettroni_totali}")
+print(f"Numero di fotoni totali : {total_n_photons}")
+print(f"Numero di positroni totali : {total_n_positrons}")
+print(f"Numero di elettroni totali : {total_n_electrons}")
 print(f"Numero di particelle totali : {total_particles}")
 
 
@@ -401,7 +402,7 @@ Variables:
             -flux_0: flux of photons
 
 Formula:
-            flux=k*energy**-2       where k is normalized to 1
+            -flux=k*energy**-2       where k is normalized to 1
 
 
 """
