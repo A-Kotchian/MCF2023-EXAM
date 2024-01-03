@@ -372,9 +372,11 @@ print(f"Numero di positroni totali : {total_n_positrons}")
 print(f"Numero di elettroni totali : {total_n_electrons}")
 print(f"Numero di particelle totali : {total_particles}")
 
-
+print(f"\nAlla fine sono arrivati al rivelatore ", total_particles[-1], " particelle\n")
 
 print("Con energia iniziale {:} eV".format(starting_energy))
+
+"""
 Altitude_event=list(set(Altitude_event)) 
 Altitude_event.sort()
 Altitude_event.reverse()
@@ -382,7 +384,7 @@ print("\nAltezze delle particelle:\n ")
 print("Evento       Altezza")
 for i in range(0,len(Altitude_event)):
     print(i,"         ",round(Altitude_event[i],2))   
-
+"""
 
 
 
