@@ -415,7 +415,7 @@ flux_0,Saved_photons_0=flux_of_photons(Particles,0)                             
 plt.plot(Saved_photons_0,flux_0,".",label="Photons")                                    #plot of photons
 plt.xlabel("log E(MeV)")
 plt.ylabel("log Flux(MeV**-2)")
-plt.title("Flux-Energy of photons {:}eV".format(starting_energy))
+plt.title("Flux-Energy of photons {:}MeV".format(starting_energy))
 plt.xscale("log")
 plt.yscale("log")
 plt.legend(loc="upper right")
@@ -432,7 +432,7 @@ Variables:
 plt.hist(Saved_photons_0,bins=int(np.sqrt(len(Saved_photons_0))))                       #Hist of photons 
 plt.xlabel("log E(MeV)")                                                                #number of bins follows the poissonian distribution
 plt.ylabel("N*of samples")
-plt.title("Histogram of Energy of photons at {:}eV".format(starting_energy))
+plt.title("Histogram of Energy of photons at {:}MeV".format(starting_energy))
 plt.xscale("log")
 plt.show()
 
