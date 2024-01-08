@@ -402,7 +402,7 @@ plt.show()
 
 Histogram plot of the energy of photons.
 Variables:
-        -Saved_photons_0: energy of photons (in log scale)
+        -Saved_photons_0: energy of photons
 
 For the number of bins we use the poissonian distribution:
 
@@ -413,10 +413,9 @@ N.B. It works better if the number of bins is at least 25 for the poissonian dis
 """
 
 plt.hist(Saved_photons_0,bins=int(np.sqrt(len(Saved_photons_0))))                       #Hist of photons 
-plt.xlabel("log E(MeV)")                                                                #number of bins follows the poissonian distribution
+plt.xlabel("E(MeV)")                                                                #number of bins follows the poissonian distribution
 plt.ylabel("N*of samples")
 plt.title("Histogram of Energy of photons at {:}MeV".format(starting_energy))
-plt.xscale("log")
 plt.show()
 
 
@@ -448,7 +447,7 @@ if int(b)==1:
     
     """
     print("\nAttendere prego\n")
-    plt.hist(fotoni_energie,bins=int(np.sqrt(len(fotoni_energie))))
+    plt.hist(fotoni_energie,bins=200)
     plt.title(r"Hit or miss method to generate a flux of photons in range 1-100TeV  Spectrum: $P(E)=kE^{-2}$")
     plt.xlabel("E(MeV)")
     plt.ylabel("N* of photons")
@@ -525,7 +524,7 @@ if int(b)==1:
     print("A 0* gradi: ",round(np.mean(n_finale_0))," particelle\n")
     print("A 20* gradi: ",round(np.mean(n_finale_1))," particelle\n")
     print("A 40* gradi: ",round(np.mean(n_finale_2))," particelle\n")
-    print("Con un numero di : ",50000, " particelle\n")
+    print("A partire da un numero di : ",50000, " particelle\n")
     print("\n---------------------------------------\n")
 
 
