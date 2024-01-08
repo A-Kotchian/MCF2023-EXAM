@@ -28,9 +28,9 @@ Critical_energy_p=85.97                 #MeV    #Critical energy of positrons
 #######################################################################################
 
  
-fotoni_energie=random.uniform(low=1000000,high=100000000,size=10000)         #we generate 10 photons
+fotoni_energie=random.uniform(low=1000000,high=100000000,size=50000)         #we generate 50000 photons
 y=fotoni_energie**(-2)
-value=random.uniform(low=0,high=max(y),size=10000)
+value=random.uniform(low=0,high=max(y),size=50000)
 mask=y>value
 
 fotoni_energie=fotoni_energie[mask]     #starting energy photons
@@ -63,14 +63,17 @@ def deriv_energy(E_0, X_0, step):
 
 def simulate(s, d ,Particles):
     """
-    Simulate the behavior of particles with given energy and altitude.
+    Simulates a particle system based on given parameters.
 
-    Parameters:
-    -s (float): The step of advancement in terms of X_0. The value must be between 0 and 1.
-    -deep (int): The depth.
-    -Particles (class): The class representing the particles.
+    Args:
+        s (float): The step size for the simulation.
+        d (float): The distance factor for the altitude calculation.
+        Particles (object): An object containing information about the particles.
 
+    Returns:
+        None
     """
+
     
     particle_Energy = Particles.particles[0]['Energy']
     step = 0
@@ -108,21 +111,13 @@ def simulate(s, d ,Particles):
                             new_particles.append({'Type': 'Photon', 'Energy': Energy_after_process/2, 'High': altitude})
                             new_particles.append({'Type': 'Electron', 'Energy': Energy_after_process/2, 'High': altitude}) 
                             N_photons +=1 
-                            Altitude_event.append(altitude)
+                            #Altitude_event.append(altitude)           #Uncomment when you test
                             ciao.append(Energy_after_process/2)
                             
                         else:
                             altitude=h_in-step*(h_in-h_det)
                             new_particles.append({'Type': 'Electron', 'Energy': Energy_after_process, 'High': altitude})
-                            ciao.append(Energy_after_process)
-                                 
-
-                            
-                # if particle_Energy<deriv_energy(starting_energy, X_0, s) and altitude>h_det:
-                #     new_particles.append({'Type': 'Positron', 'Energy': Energy_after_process, 'High': altitude})
-                #     ciao.append(Energy_after_process)
-
-                
+                            ciao.append(Energy_after_process)   
 
             
             elif type == 'Photon':
@@ -137,23 +132,14 @@ def simulate(s, d ,Particles):
                         N_electrons += 1
                         N_positrons += 1
                         N_photons -= 1 
-                        Altitude_event.append(altitude)
+                        #Altitude_event.append(altitude)           #Uncomment when you test
                         ciao.append(particle_Energy/2)
                         
                     else:
                         new_particles.append({'Type': 'Photon', 'Energy': particle_Energy, 'High': altitude}) 
-                        ciao.append(particle_Energy)
- 
-                        
-                
-                # if particle_Energy<kappa and altitude>h_det:
-                #     new_particles.append({'Type': 'Photon', 'Energy': Energy_after_process, 'High': altitude})
-                #     ciao.append(Energy_after_process)
+                        ciao.append(particle_Energy)              
 
-
-                        
-
-            else: #Type_particella == 'Positron':
+            else:                                                                                                   #Type_particella == 'Positron':
                 if particle_Energy > deriv_energy(starting_energy, X_0, s) and altitude>h_det: 
                     Energy_after_process = particle_Energy - deriv_energy(starting_energy, X_0, s)
                     
@@ -166,7 +152,7 @@ def simulate(s, d ,Particles):
                             new_particles.append({'Type': 'Photon', 'Energy': Energy_after_process/2, 'High': altitude}) 
                             new_particles.append({'Type': 'Positron', 'Energy': Energy_after_process/2, 'High': altitude}) 
                             N_photons +=1 
-                            Altitude_event.append(altitude)
+                            # Altitude_event.append(altitude)           #Uncomment when you test
                             ciao.append(Energy_after_process/2)
                             
                         else:
@@ -174,15 +160,6 @@ def simulate(s, d ,Particles):
                             new_particles.append({'Type': 'Positron', 'Energy': Energy_after_process, 'High': altitude})
                             ciao.append(Energy_after_process)
                             
-
-
-                # if particle_Energy<deriv_energy(starting_energy, X_0, s) and altitude>h_det:
-                #     new_particles.append({'Type': 'Positron', 'Energy': Energy_after_process, 'High': altitude})
-                #     ciao.append(Energy_after_process)
-
-
-
-
 
         total_n_electrons.append(N_electrons)
         total_n_photons.append(N_photons)
@@ -196,36 +173,17 @@ def simulate(s, d ,Particles):
             totale=total_particles[-2]
             break
 
-def u_mesur(value):
+
+def flux_of_photons(Particles):
     """
-    Returns a unit symbol based on the given value.
+    Calculate the flux of photons and energy of photons from a given list of particles.
 
     Parameters:
-    - value (int): The value.
+    - Particles: A Particle List object containing the list of particles.
 
     Returns:
-    - u (str): The unit symbol ('M', 'G', 'T', or 'P').
-    """
-
-    if value < 10**3: u = 'M'
-    if value < 10**6 and value > 10**3: u = 'G'
-    if value < 10**9 and value > 10**6: u = 'T'
-    if value < 10**12 and value > 10**9: u = 'P'
-
-    return u
-
-def flux_of_photons(Particles,angle):
-    """
-    Calculates the flux of photons for a given list of particles.
-
-    Parameters:
-    - Particles (list): A list of particles.
-
-    Returns:
-    - flux (list): A list containing the flux values for each photon.
-    - Saved_photons (list): A list of saved photon energies.
-
-    The returns are sorted in increasing order.
+    - flux: A list of the calculated flux values for each photon.
+    - Saved_photons: A list of the energies of the saved photons.
     """
 
 
@@ -245,14 +203,7 @@ def flux_of_photons(Particles,angle):
     flux.reverse()                                                                                      #making flux and energy readble for plot                                                        
     Saved_photons.sort()
     
-    # i=0
-    # for j in range(0,len(Saved_photons)):                                                             #find the index of the first photon with energy > Saved_photons
-    #     if(Saved_photons[j]>deriv_energy(starting_energy,X_0/np.cos(angle),s)):                                     #and removes the energy<dEx0*s 
-    #         i=j
-    #     break
-
-    return flux,Saved_photons   #[i:]   
-
+    return flux,Saved_photons  
 
 
 
@@ -273,25 +224,9 @@ def line(x, a, b,c):
         y.append(a*(i**(-2))+b*i+c)
     return y
 
-def Energy_and_flux_of_simulation(energy,deep,s,angle):
-    """
-    Calculates the energy and flux of a new simulation.
 
-    Parameters:
-        energy (float): The starting energy for the simulation.
-        deep (float): The depth of the simulation.
-        s (float): The step of advancement in terms of X_0. The value must be between 0 and 1.
-        angle (float): The angle parameter for the simulation.
 
-    Returns:
-        tuple: A tuple containing the flux and the number of saved photons already sorted and reversed.
-    """
-    P = Swarm(energy)               
-    simulate(s, deep/np.cos(angle), P)   
 
-    flux, Saved_photons = flux_of_photons(P,angle)
-
-    return flux,Saved_photons
 #######################################################################################
 #
 #Class of Particles
@@ -397,21 +332,21 @@ s=float(input("\nInserisci il passo dello step tra 0 e 1:(si consiglia uno step 
 
 
 
-Particles=Swarm(starting_energy)    #First simulation
-total_n_electrons = []
-total_n_positrons = []
-total_n_photons = []
-total_particles = []
-Altitude_event=[]
+Particles=Swarm(starting_energy)                                       #First simulation and generation of particles
+total_n_electrons = []                                                 #|
+total_n_positrons = []                                                 #|Saving number of particles for 
+total_n_photons = []                                                   #|each type
+total_particles = []                                                   #|
 step=0
 
+# Altitude_event=[]                                                    #Uncomment to test the program
 
         
 simulate( s, X_0, Particles)
 print("\n---------------------------------\n")
 print("Ad ogni step:\n")
 print(f"Numero di fotoni totali : {total_n_photons[:-1]}")
-print(f"Numero di positroni totali : {total_n_positrons[:-1]}")
+print(f"Numero di positroni totali : {total_n_positrons[:-1]}")       #Description of what happening
 print(f"Numero di elettroni totali : {total_n_electrons[:-1]}")
 print(f"Numero di particelle totali : {total_particles[:-1]}")
 
@@ -419,20 +354,12 @@ print(f"\nAlla fine sono arrivati al rivelatore ", total_particles[-2], " partic
 
 print("Con energia iniziale {:} MeV".format(starting_energy))
 print("Derivata x step:",round(deriv_energy(starting_energy, X_0, s),2)," MeV")
-
-
-# Altitude_event=list(set(Altitude_event)) 
-# Altitude_event.sort()
-# Altitude_event.reverse()
-# # print("\nAltezze delle particelle:\n ")                       #to see the altitude of the particles for each step.
-# # print("Evento       Altezza")
-# # for i in range(0,len(Altitude_event)):
-# #     print(i,"         ",round(Altitude_event[i],2))   
+print("\n---------------------------------\n")
 
 
 
 lenoo=np.linspace(0,len(total_particles),len(total_particles))
-plt.plot(lenoo[:-1],total_particles[:-1])
+plt.plot(lenoo[:-1],total_particles[:-1])                            #plotting the number of particles for each step
 plt.title("Numero di particelle per ogni step")
 plt.ylabel("Numero di particelle")
 plt.xlabel("Numero di step")
@@ -448,7 +375,7 @@ plt.show()
 #######################################################################################
 
 """
-Graph plot of the energy of photons nad flux.
+Graph plot , in log-log scale, of the energy of photons and flux.
 Variables:
             -Saved_photons_0: energy of photons
             -flux_0: flux of photons
@@ -460,14 +387,14 @@ Formula:
 """
 
 
-flux_0,Saved_photons_0=flux_of_photons(Particles,0)                                     # [@]  User flux and energy
+flux_0,Saved_photons_0=flux_of_photons(Particles)                                     # [@]  User flux and energy
 
 plt.plot(Saved_photons_0,flux_0,".",label="Photons")                                    #plot of photons
 plt.xlabel("log E(MeV)")
 plt.ylabel("log Flux(MeV**-2)")
 plt.title("Flux-Energy of photons {:}MeV".format(starting_energy))
-# plt.xscale("log")
-# plt.yscale("log")
+plt.xscale("log")
+plt.yscale("log")
 plt.legend(loc="upper right")
 plt.show()
 
@@ -475,7 +402,13 @@ plt.show()
 
 Histogram plot of the energy of photons.
 Variables:
-        -Saved_photons_0: energy of photons
+        -Saved_photons_0: energy of photons (in log scale)
+
+For the number of bins we use the poissonian distribution:
+
+- n_of_bins=sqrt(frequency)
+
+N.B. It works better if the number of bins is at least 25 for the poissonian distribution
 
 """
 
@@ -491,62 +424,79 @@ plt.show()
     
 
 #3 Part: Simulation of 2 new Swarm with different starting angle and
-#        comparison with the preavius Swarn (made in Part 1) 
+#        comparison. Using Hit or miss method to create a simulation of 
+#        50000 photons in range 1-100TeV
     
 
 #######################################################################################
 
-b=input("\nVuoi vedere i grafici a diversi angoli ma con la stessa simulazione?\n")
+b=input("\nVuoi vedere i grafici a diversi angoli ma con la stessa simulazione?\n(Inserire 1 se si, 0 altrimenti)\n")
 if int(b)==1:
 
+    """
+    Plotting hist of hit or miss method.
+    Variables:
+                -fotoni_energie: energy of photons
+    
+    
+    For the number of bins we use the poissonian distribution:
 
+    - n_of_bins=sqrt(frequency)
 
-    plt.hist(fotoni_energie,bins=50)
+    N.B. It works better if the number of bins is at least 25 for the poissonian distribution
+
+    
+    """
+    print("\nAttendere prego\n")
+    plt.hist(fotoni_energie,bins=int(np.sqrt(len(fotoni_energie))))
     plt.title(r"Hit or miss method to generate a flux of photons in range 1-100TeV  Spectrum: $P(E)=kE^{-2}$")
     plt.xlabel("E(MeV)")
     plt.ylabel("N* of photons")
-
     plt.show()
 
     """
+    Calculate the number of particles in the detector for a given list of photon energies.
+    This calcule must be done for each starting angle.
 
-    Simulation of 2 new Swarm with different starting angle:
+    """  
 
-        -Particles_1 with 40° or 2*pi/9 angle  [1]
-        -Particles_2 with 20° or pi/9 angle    [2]
-        
-
-    """
 
     n_finale_0=[]
 
-    for i in fotoni_energie:                                #0*
+    for i in fotoni_energie:                                            #0*        
         total_particles = []
-        Particles_1=Swarm(i)                                
-        simulate(s, X_0, Particles_1)
+        Particles=Swarm(i)                                
+        simulate(s, X_0, Particles)
         n_finale_0.append(total_particles[-2])
 
-    n_finale_1=[]
+    n_finale_1=[]                                                       #20*
 
-    for i in fotoni_energie:                                #20*
-        total_particles = []                                
-        Particles_2=Swarm(i)
-        simulate(s,  X_0*np.cos(np.pi/9), Particles_2)
+    for i in fotoni_energie:                                
+        total_particles = []
+        Particles=Swarm(i)                                
+        simulate(s, X_0*np.cos(np.pi/9), Particles)
         n_finale_1.append(total_particles[-2])
 
-    
-    n_finale_2=[]
 
-    for i in fotoni_energie:                                #40*
-        total_particles = []                                
-        Particles_3=Swarm(i)
-        simulate(s, X_0*np.cos(2*np.pi/9), Particles_3)
+    n_finale_2=[]                                                       #40*
+
+    for i in fotoni_energie:                                
+        total_particles = []
+        Particles=Swarm(i)                                
+        simulate(s, X_0*np.cos(2*np.pi/9), Particles)
         n_finale_2.append(total_particles[-2])
 
-    fig, axs = plt.subplots(3, 1, figsize=(10, 15))                                         # 3 rows, 1 column
-    fig.subplots_adjust(hspace=0.5)
-    #For Energy=Decided by the user go to [@] 
+ 
+    """
 
+    Plotting the results of the simulation.
+
+    """
+    fig, axs = plt.subplots(3, 1, figsize=(10, 15))                    # 3 rows, 1 column
+    fig.subplots_adjust(hspace=0.5)
+
+
+    #For Energy=Decided by the user go to [@] 
 
     axs[0].plot(fotoni_energie, n_finale_0, ".", label="Flux with 0°", color="blue")
     axs[0].set_xlabel("E(MeV)")
@@ -562,21 +512,45 @@ if int(b)==1:
 
     #For staring angle 40°
 
-
     axs[2].plot(fotoni_energie, n_finale_2, ".", label="Flux with 40°", color="purple")
     axs[2].set_xlabel(" E(MeV)")
     axs[2].set_ylabel(" N* of particles")
     axs[2].legend(loc="upper right")
 
-
-
     plt.suptitle("N* of particles reveald-Energy of photons with different starting angle",fontsize="xx-large",va="center")
     plt.show()
 
+    print("\n---------------------------------------\n")
     print("In media sono state rilevate:\n")
     print("A 0* gradi: ",round(np.mean(n_finale_0))," particelle\n")
     print("A 20* gradi: ",round(np.mean(n_finale_1))," particelle\n")
     print("A 40* gradi: ",round(np.mean(n_finale_2))," particelle\n")
+    print("Con un numero di : ",50000, " particelle\n")
+    print("\n---------------------------------------\n")
+
+
+
+
+
+
+
+#######################################################################################
+    
+
+#Testing the program codes:
+    
+
+#######################################################################################
+
+
+
+# Altitude_event=list(set(Altitude_event)) 
+# Altitude_event.sort()
+# Altitude_event.reverse()
+# # print("\nAltezze delle particelle:\n ")                         #to see the altitude of the particles for each step.
+# # print("Evento       Altezza")
+# # for i in range(0,len(Altitude_event)):
+# #     print(i,"         ",round(Altitude_event[i],2))   
 
 
 
