@@ -1,7 +1,6 @@
 # MCF2023-EXAM
 Welcome in the repository of MCF2023-EXAM of Alessandro Kotchian.
-The purpose of this program is to simulate the High Altitude Atmospheric Swarms
-with methods learned during lessons.
+The purpose of this program is to simulate the High Altitude Atmospheric Swarms with methods learned during lessons.
 
 **REQUIREMENTS**:  
 You need _Python_ with this libraries:
@@ -18,13 +17,15 @@ The program starts asking the user to insert:
 - Starting Energy of a photon at 20km of altitude
 - The step of advancement in terms of X_0. The value must be between 0 and 1.
 
-Then the programm starts asking if the user wants to see 2 graphs: 
+Then the program starts asking if the user wants to see graph of statistical analyses for 50000 generated photons in range 1-100 TeV: 
 
-If the users wants to see the graphs, he needs to insert "_1_" else "_0_".
+If the users wants to see the graph, he needs to insert "_1_" else "_0_".
+
+At final the program will show the mean of the simulation for all 3 different angles.
 
 
 **HELP** :   
-If you dont have any libraries follow this:
+If you don't have any libraries follow this:
 
 - Open the terminal 
 - insert "_cd_ _<path\folder\of\directory>_"
