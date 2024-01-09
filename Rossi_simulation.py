@@ -46,13 +46,13 @@ fotoni_energie=fotoni_energie[mask]     #starting energy photons
 
 def deriv_energy(E_0, X_0, step):
     """
-    Calculate the energy deriv_energyation of a particle swarm.
+    Calculate the energy deriv_energyation of a particle Shower.
 
-    This function computes the energy deriv_energyation of a particle swarm
+    This function computes the energy deriv_energyation of a particle Shower
     based on the starting energy, radiation length, and the step of advancement.
 
     Parameters:
-    - E_0 (float): The starting energy of the particle swarm (MeV).
+    - E_0 (float): The starting energy of the particle Shower (MeV).
     - X_0 (float): The radiation length of the particle (m).
     - step (float): The step of advancement in terms of X_0. The value must be between 0 and 1.
 
@@ -287,11 +287,11 @@ class positrons:
         self.E = Energy
 
 
-class Swarm:
+class Shower:
 
     """
     
-    This class rappresent the swarm of particles in the simulation.
+    This class rappresent the Shower of particles in the simulation.
     Variables:
                 -E0 (float): The starting energy 
                 -particles (list): The list of particles
@@ -332,7 +332,7 @@ s=float(input("\nInserisci il passo dello step tra 0 e 1:(si consiglia uno step 
 
 
 
-Particles=Swarm(starting_energy)                                       #First simulation and generation of particles
+Particles=Shower(starting_energy)                                       #First simulation and generation of particles
 total_n_electrons = []                                                 #|
 total_n_positrons = []                                                 #|Saving number of particles for 
 total_n_photons = []                                                   #|each type
@@ -422,7 +422,7 @@ plt.show()
 #######################################################################################
     
 
-#3 Part: Simulation of 2 new Swarm with different starting angle and
+#3 Part: Simulation of 2 new Shower with different starting angle and
 #        comparison. Using Hit or miss method to create a simulation of 
 #        50000 photons in range 1-100TeV
     
@@ -464,7 +464,7 @@ if int(b)==1:
 
     for i in fotoni_energie:                                            #0*        
         total_particles = []
-        Particles=Swarm(i)                                
+        Particles=Shower(i)                                
         simulate(s, X_0, Particles)
         n_finale_0.append(total_particles[-2])
 
@@ -472,7 +472,7 @@ if int(b)==1:
 
     for i in fotoni_energie:                                
         total_particles = []
-        Particles=Swarm(i)                                
+        Particles=Shower(i)                                
         simulate(s, X_0*np.cos(np.pi/9), Particles)
         n_finale_1.append(total_particles[-2])
 
@@ -481,7 +481,7 @@ if int(b)==1:
 
     for i in fotoni_energie:                                
         total_particles = []
-        Particles=Swarm(i)                                
+        Particles=Shower(i)                                
         simulate(s, X_0*np.cos(2*np.pi/9), Particles)
         n_finale_2.append(total_particles[-2])
 
