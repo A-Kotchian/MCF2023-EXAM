@@ -44,7 +44,7 @@ fotoni_energie=fotoni_energie[mask]     #starting energy photons
 #        
 #######################################################################################
 
-def deriv_energy(E_0, X_0, step):
+def deriv_energy(E_0, X_0, s):
     """
     Calculate the energy deriv_energyation of a particle Shower.
 
@@ -54,12 +54,12 @@ def deriv_energy(E_0, X_0, step):
     Parameters:
     - E_0 (float): The starting energy of the particle Shower (MeV).
     - X_0 (float): The radiation length of the particle (m).
-    - step (float): The step of advancement in terms of X_0. The value must be between 0 and 1.
+    - s (float): The step of advancement in terms of X_0. The value must be between 0 and 1.
 
     Returns:
     - float: The deriv_energyed energy value.
     """
-    return ((E_0 / X_0)* step)/np.e
+    return ((E_0 / X_0)* s)/np.e     
 
 def simulate(s, d ,Particles):
     """
@@ -76,7 +76,7 @@ def simulate(s, d ,Particles):
 
     
     particle_Energy = Particles.particles[0]['Energy']
-    step = 0
+    step = 1
     new_particles= Particles.particles
     pippolo=deriv_energy(starting_energy, X_0, s)
     while particle_Energy > 0:
@@ -95,11 +95,14 @@ def simulate(s, d ,Particles):
         for p in Particles.particles:
             type = p['Type']
             particle_Energy = p['Energy']
-            altitude=h_in-s*(d)*step        #Altiude of the particle
+            altitude=h_in-(d)*step*s        #Altiude of the particle    #*X_0
             
             if type == 'Electron':
                 if particle_Energy > deriv_energy(starting_energy, X_0, s) and altitude> h_det:
                     Energy_after_process = particle_Energy - deriv_energy(starting_energy, X_0, s)
+
+                    
+
                     N_electrons += 1
 
 
@@ -115,14 +118,15 @@ def simulate(s, d ,Particles):
                             ciao.append(Energy_after_process/2)
                             
                         else:
-                            altitude=h_in-step*(h_in-h_det)
+                            #altitude=h_in-step*(h_in-h_det)
                             new_particles.append({'Type': 'Electron', 'Energy': Energy_after_process, 'High': altitude})
                             ciao.append(Energy_after_process)   
-
+                
             
             elif type == 'Photon':
                 if particle_Energy > kappa and altitude>h_det:
                     N_photons +=1 
+
                     probabilità = 1 - np.exp(-(7/9)*s)
                     if (np.random.uniform() < probabilità):
 
@@ -139,10 +143,11 @@ def simulate(s, d ,Particles):
                         new_particles.append({'Type': 'Photon', 'Energy': particle_Energy, 'High': altitude}) 
                         ciao.append(particle_Energy)              
 
-            else:                                                                                                   #Type_particella == 'Positron':
+            else:                                                                                                #Type_particella == 'Positron':
+                    
                 if particle_Energy > deriv_energy(starting_energy, X_0, s) and altitude>h_det: 
                     Energy_after_process = particle_Energy - deriv_energy(starting_energy, X_0, s)
-                    
+                        
                     if Energy_after_process > Critical_energy_p:
                         N_positrons += 1 
                         probabilità = 1-np.exp(-s)
@@ -170,10 +175,9 @@ def simulate(s, d ,Particles):
         mask =  ciaone > pippolo
         ciaone=ciaone[mask]
         if(len(ciaone)==0):
-            totale=total_particles[-2]
             break
 
-
+                   
 def flux_of_photons(Particles):
     """
     Calculate the flux of photons and energy of photons from a given list of particles.
@@ -349,6 +353,7 @@ print(f"Numero di fotoni totali : {total_n_photons[:-1]}")
 print(f"Numero di positroni totali : {total_n_positrons[:-1]}")       #Description of what happening
 print(f"Numero di elettroni totali : {total_n_electrons[:-1]}")
 print(f"Numero di particelle totali : {total_particles[:-1]}")
+print(f"numero di step: ",len(total_particles[:-1]))
 
 print(f"\nAlla fine sono arrivati al rivelatore ", total_particles[-2], " particelle\n")
 
@@ -386,18 +391,20 @@ Formula:
 
 """
 
+try:
+    flux_0,Saved_photons_0=flux_of_photons(Particles)                                     # [@]  User flux and energy
 
-flux_0,Saved_photons_0=flux_of_photons(Particles)                                     # [@]  User flux and energy
+    plt.plot(Saved_photons_0,flux_0,".",label="Photons")                                    #plot of photons
+    plt.xlabel("log E(MeV)")
+    plt.ylabel("log Flux(MeV**-2)")
+    plt.title("Flux-Energy of photons {:}MeV".format(starting_energy))
+    plt.xscale("log")
+    plt.yscale("log")
+    plt.legend(loc="upper right")
+    plt.show()
 
-plt.plot(Saved_photons_0,flux_0,".",label="Photons")                                    #plot of photons
-plt.xlabel("log E(MeV)")
-plt.ylabel("log Flux(MeV**-2)")
-plt.title("Flux-Energy of photons {:}MeV".format(starting_energy))
-plt.xscale("log")
-plt.yscale("log")
-plt.legend(loc="upper right")
-plt.show()
-
+except:
+    raise ValueError("Nessun fotone rilevato")
 """
 
 Histogram plot of the energy of photons.
