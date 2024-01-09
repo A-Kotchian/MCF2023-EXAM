@@ -1,6 +1,6 @@
 # MCF2023-EXAM
 Welcome in the repository of MCF2023-EXAM of Alessandro Kotchian.
-The purpose of this program is to simulate the High Altitude Atmospheric Swarms with methods learned during lessons.
+The purpose of this program is to simulate the High Altitude Atmospheric Shower with methods learned during lessons.
 
 **REQUIREMENTS**:  
 You need _Python_ with this libraries:
