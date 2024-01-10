@@ -58,9 +58,9 @@ def deriv_energy(E_0, X_0, s):
 
     Returns:
     - float: The deriv_energyed energy value.
-    """
-    return ((E_0 / X_0)* s)/np.e     
-
+    """     
+    return ((E_0 / X_0)* s)
+    
 def simulate(s, d ,Particles):
     """
     Simulates a particle system based on given parameters.
